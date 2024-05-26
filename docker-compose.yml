@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  ui:
+    container_name: homework_fe_ui
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - POSTGRES_URL=postgres://default:U2QBHqEf9Zdz@ep-wispy-wildflower-a4xdxuhu-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require
+      - POSTGRES_PRISMA_URL=postgres://default:U2QBHqEf9Zdz@ep-wispy-wildflower-a4xdxuhu-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require&pgbouncer=true&connect_timeout=15
+      - POSTGRES_URL_NO_SSL=postgres://default:U2QBHqEf9Zdz@ep-wispy-wildflower-a4xdxuhu-pooler.us-east-1.aws.neon.tech:5432/verceldb
+      - POSTGRES_URL_NON_POOLING=postgres://default:U2QBHqEf9Zdz@ep-wispy-wildflower-a4xdxuhu.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require
+      - POSTGRES_USER=default
+      - POSTGRES_HOST=ep-wispy-wildflower-a4xdxuhu-pooler.us-east-1.aws.neon.tech
+      - POSTGRES_PASSWORD=U2QBHqEf9Zdz
+      - POSTGRES_DATABASE=verceldb
+    restart: unless-stopped

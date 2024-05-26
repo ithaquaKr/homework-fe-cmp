@@ -8,9 +8,15 @@ This is the starter template for the Next.js App Router Course. It contains the 
 
 For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
 
+## How to run
+
+### Development run
+
+### Production run
+
 ## Questions
 
-Q1: What is Document Object Model (DOM)?
+### Q1: What is Document Object Model (DOM)?
 
 The Document Object Model (DOM) is a programming interface for web documents. It represents the struct of a document as a tree of object, making it possible for programming languages such as JavaScript to interact with, manipulate, and update the content, structure, and style of a document dynamically.
 
@@ -41,7 +47,7 @@ Why DOM is important?
 - With DOM, developer can use familiar programming languages like JavaScript to access and modify web pages.
 - DOM is standardized by the World Wide Web Consortium (W3C), ensuring a consistent approach across different browsers and platforms.
 
-Q2: How React or Vue can manipulate DOM?
+### Q2: How React or Vue can manipulate DOM?
 
 ReactJS manipulates the DOM using **virtual DOM**, which is a lightweight representation of the actual DOM. Like ReactJS, Vue.js also uses a virtual DOM to efficiently manipulate the actual DOM.
 
