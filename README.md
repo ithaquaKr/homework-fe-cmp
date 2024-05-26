@@ -10,9 +10,33 @@ For more information, see the [course curriculum](https://nextjs.org/learn) on t
 
 ## How to run
 
-### Development run
+### Run with Docker
 
-### Production run
+Just need to run one command:
+
+```shell
+docker compose up -d
+```
+
+Open <http://localhost:3000> with your browser to see the result.
+
+### Run locally
+
+First, you need install all dependencies. In my repository, i use `pnpm`. (You can use whatever you like =)))
+
+```shell
+pnpm install
+```
+
+Next, run the development server:
+
+```shell
+npm run dev
+# or
+pnpm run dev
+```
+
+Open <http://localhost:3000> with your browser to see the result.
 
 ## Questions
 
