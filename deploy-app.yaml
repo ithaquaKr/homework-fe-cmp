@@ -1,0 +1,101 @@
+---
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-ui
+  namespace: nextjs-app
+  labels:
+    app: dashboard-ui
+spec:
+  selector:
+    matchLabels:
+      app: dashboard-ui
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: dashboard-ui
+      labels:
+        app: dashboard-ui
+    spec:
+      # initContainers:
+      # Init containers are exactly like regular containers, except:
+      # - Init containers always run to completion.
+      # - Each init container must complete successfully before the next one starts.
+      containers:
+        - name: dashboard-ui
+          image: nguyenhiep201/course-dashboard-ui:1.0.0
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          envFrom:
+            - configMapRef:
+                name: dashboard-ui-config
+          ports:
+            - containerPort: 3000
+              name: dashui-conport
+      restartPolicy: Always
+---
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard-ui
+  namespace: nextjs-app
+spec:
+  selector:
+    app: dashboard-ui
+  type: LoadBalancer
+  ports:
+    - name: dashboard-ui-service-port
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 30001
+---
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboard-ui-config
+  namespace: nextjs-app
+data:
+  POSTGRES_URL: 'postgres://default:U2QBHqEf9Zdz@ep-wispy-wildflower-a4xdxuhu-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require'
+  POSTGRES_PRISMA_URL: 'postgres://default:U2QBHqEf9Zdz@ep-wispy-wildflower-a4xdxuhu-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require&pgbouncer=true&connect_timeout=15'
+  POSTGRES_URL_NO_SSL: 'postgres://default:U2QBHqEf9Zdz@ep-wispy-wildflower-a4xdxuhu-pooler.us-east-1.aws.neon.tech:5432/verceldb'
+  POSTGRES_URL_NON_POOLING: 'postgres://default:U2QBHqEf9Zdz@ep-wispy-wildflower-a4xdxuhu.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require'
+  POSTGRES_USER: 'default'
+  POSTGRES_HOST: 'ep-wispy-wildflower-a4xdxuhu-pooler.us-east-1.aws.neon.tech'
+  POSTGRES_PASSWORD: 'U2QBHqEf9Zdz'
+  POSTGRES_DATABASE: 'verceldb'
+  AUTH_SECRET: GC26RM+2pOI4k1NlhuPjZtGmLo3sEH1u7uJaHNIY8AM=
+  AUTH_URL: http://34.133.153.178/api/auth
+---
+
